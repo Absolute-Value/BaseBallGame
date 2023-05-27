@@ -14,7 +14,7 @@ class Ball():
         self.x = self.init_x
         self.y = self.init_y
         self.dx = random.random() * 0.5 - 0.25
-        self.dy = random.random() * 3 + 2
+        self.dy = random.random() * 3.5 + 2.5
         self.alive = True
         self.dead_count = random.randint(60, 120)
         self.is_strike = False

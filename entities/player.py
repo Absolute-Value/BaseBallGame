@@ -38,6 +38,12 @@ class RightBatter(Player):
         if self.angle < 135:
             self.angle += 6
 
+    def move(self, dx=0, dy=0):
+        if self.init_x -5 < self.x + dx < self.init_x + 5:
+            self.x += dx
+        if self.init_y -8 < self.y + dy < self.init_y + 8:
+            self.y += dy
+
     def draw(self, screen):
         pygame.draw.line(screen, LIGHT_BROWN, (self.x, self.y), (self.bat_end_x, self.bat_end_y), self.bat_width)
         super().draw(screen, color=BLUE)

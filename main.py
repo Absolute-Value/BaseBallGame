@@ -30,6 +30,14 @@ def main():
 
         # プレイヤーの入力処理
         keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            batter.move(dx=-1)
+        elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            batter.move(dx=1)
+        if keys[pygame.K_UP] or keys[pygame.K_w]:
+            batter.move(dy=-1)
+        elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
+            batter.move(dy=1)
         if keys[pygame.K_n]:
             batter.rotate_left()
         else:
