@@ -52,6 +52,7 @@ class Ball():
             elif self.y < 0 or (self.x < 0 and self.y < SCREEN_HEIGHT // 6) or (self.x > SCREEN_WIDTH and self.y < SCREEN_HEIGHT // 6):
                 reset()
                 counter.reset()
+                batter.is_change = True
             # ファウルゾーンの画面外ならファウル
             elif SCREEN_HEIGHT < self.y or self.x < 0 or SCREEN_WIDTH < self.x:
                 reset()

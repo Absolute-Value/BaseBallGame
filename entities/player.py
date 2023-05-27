@@ -28,7 +28,7 @@ class RightBatter(Player):
         self.bat_length = 36
         self.angle = -135
         self.hit = False
-        self.is_out = False
+        self.is_change = False
 
     def rotate_right(self):
         if self.angle > -135:

@@ -31,7 +31,7 @@ def main():
         # 野球場の描画
         ball.move(field.base_home, counter, fielders.catcher, batter)
         if ball.alive and not batter.hit: fielders.catcher.move(dx=ball.dx)
-        if batter.is_out:
+        if batter.is_change:
             batter = create_batter(field.base_home.x, field.base_home.y)
 
         batter.check_collision(ball)

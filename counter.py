@@ -15,7 +15,7 @@ class Counter():
         self.strike_num += 1
         if self.strike_num >= 3:
             self.out()
-            batter.is_out = True
+            batter.is_change = True
 
     def foul(self):
         if self.strike_num < 2:
