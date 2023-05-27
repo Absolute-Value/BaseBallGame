@@ -1,4 +1,4 @@
-# 野球ゲーム
+# 野球ゲーム | Baseball Game
 
 pythonを用いて野球ゲームを実装しました．  
 Github Copilotにかなり助けてもらいました．
