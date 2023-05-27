@@ -11,10 +11,11 @@ class Counter():
         self.ball_num = 0
         self.out_num = 0
 
-    def strike(self):
+    def strike(self, batter):
         self.strike_num += 1
         if self.strike_num >= 3:
             self.out()
+            batter.is_out = True
 
     def ball(self):
         self.ball_num += 1

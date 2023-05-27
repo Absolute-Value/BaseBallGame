@@ -1,4 +1,5 @@
 import pygame
+import random
 import math
 from define import RED, BLUE, LIGHT_BROWN
 
@@ -17,6 +18,7 @@ class RightBatter(Player):
         self.bat_width = 4
         self.bat_length = 36
         self.angle = -135
+        self.is_out = False
 
     def rotate_right(self):
         if self.angle > -135:
@@ -45,7 +47,12 @@ class LeftBatter(RightBatter):
     def rotate_left(self):
         if self.angle > -135:
             self.angle -= 6
-        
+
+def create_batter(home_x, home_y):
+    if random.random() < 0.5:
+        return RightBatter(home_x - 30, home_y -10)
+    else:
+        return LeftBatter(home_x + 30, home_y -10)       
 
 # 守備プレイヤークラス
 class Fielders():

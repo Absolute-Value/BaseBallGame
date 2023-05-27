@@ -13,10 +13,7 @@ def main():
 
     field = Field()
     fielders = Fielders(field)
-    if random.random() < 0.5:
-        batter = RightBatter(field.base_home_and_line.x - 30, field.base_home_and_line.y - 10)
-    else:
-        batter = LeftBatter(field.base_home_and_line.x + 30, field.base_home_and_line.y - 10)
+    batter = create_batter(field.base_home_and_line.x, field.base_home_and_line.y)
     ball = Ball(fielders.pitcher.x, fielders.pitcher.y)
     counter = Counter()
 
@@ -33,8 +30,12 @@ def main():
             batter.rotate_right()
 
         # 野球場の描画
+        is_strike = ball.move(fielders)
+        if is_strike: counter.strike(batter)
+        if batter.is_out:
+            batter = create_batter(field.base_home_and_line.x, field.base_home_and_line.y)
+
         field.draw(screen)
-        ball.move(counter, fielders)
         ball.draw(screen)
         fielders.draw(screen)
         batter.draw(screen)

@@ -18,17 +18,18 @@ class Ball():
         self.alive = True
         self.dead_count = random.randint(60, 120)
 
-    def move(self, counter, fielders):
+    def move(self, fielders) -> bool:
         self.x += self.dx
         self.y += self.dy
         if self.alive:
             if self.y > fielders.catcher.y:
                 self.alive = False
-                counter.strike()
+                return True
         else:
             self.dead_count -= 1
             if self.dead_count == 0:
                 self.reset()
+        return False
     
     def draw(self, screen):
         if self.alive:
