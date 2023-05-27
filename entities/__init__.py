@@ -1,2 +1,2 @@
 from .ball import Ball
-from .player import Fielders, create_batter
+from .player import Player, create_batter

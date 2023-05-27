@@ -11,9 +11,16 @@ def main():
     clock = pygame.time.Clock()
 
     field = Field()
-    fielders = Fielders(field)
+    fielders = {
+        'pitcher': Player(field.picher_mound.x, field.picher_mound.y + 4),
+        'catcher': Player(field.base_home.x, field.base_home.y + 30),
+        'first': Player(field.base_first.x, field.base_first.y - 50),
+        'second': Player(field.base_second.x + 100, field.base_second.y),
+        'short': Player(field.base_second.x - 100, field.base_second.y),
+        'third': Player(field.base_third.x, field.base_third.y - 50)
+    }
     batter = create_batter(field.base_home.x, field.base_home.y)
-    ball = Ball(fielders.pitcher.x, fielders.pitcher.y)
+    ball = Ball(fielders['pitcher'].x, fielders['pitcher'].y)
     counter = Counter()
 
     while True:
@@ -29,8 +36,8 @@ def main():
             batter.rotate_right()
 
         # 野球場の描画
-        ball.move(field.base_home, counter, fielders.catcher, batter)
-        if ball.alive and not batter.hit: fielders.catcher.move(dx=ball.dx)
+        ball.move(field.base_home, counter, fielders['catcher'], batter)
+        if ball.alive and not batter.hit: fielders['catcher'].move(dx=ball.dx)
         if batter.is_change:
             batter = create_batter(field.base_home.x, field.base_home.y)
 
@@ -38,7 +45,9 @@ def main():
 
         field.draw(screen)
         ball.draw(screen)
-        fielders.draw(screen)
+        fielders['catcher'].draw(screen)
+        for fielder in fielders.values():
+            fielder.draw(screen)
         batter.draw(screen)
 
         counter.draw(screen)
