@@ -20,7 +20,7 @@ class Ball():
         self.is_strike = False
         self.is_swing = False
 
-    def move(self, base_home, counter, catcher, batter):
+    def move(self, base_home, counter, fielders, batter):
         self.x += self.dx
         self.y += self.dy
         if self.alive:
@@ -43,17 +43,26 @@ class Ball():
                 self.alive = False
                 self.is_strike = False
                 batter.hit = False
-                catcher.reset()
-            # キャッチャーが捕球した時
-            if (catcher.x - self.x)**2 + (catcher.y - self.y)**2 <= (catcher.radius + self.radius)**2:
-                # ホームベースをかする、またはスイングしていたらストライク
-                if self.is_strike or self.is_swing:
-                    counter.strike(batter)
-                else:
-                    counter.ball()
-                reset()
+                for fielder in fielders.values():
+                    fielder.reset()
+            # 野手が捕球した時
+            for pos_name, fielder in fielders.items():
+                if (fielder.x - self.x)**2 + (fielder.y - self.y)**2 <= (fielder.radius + self.radius)**2:
+                    # キャッチャーが捕球した時
+                    if pos_name == 'catcher':
+                        # ホームベースをかする、またはスイングしていたらストライク
+                        if self.is_strike or self.is_swing:
+                            counter.strike(batter)
+                        else:
+                            counter.ball()
+                    elif pos_name == 'pitcher':
+                        continue
+                    else:
+                        counter.out()
+                    reset()
+                    return
             # フェアゾーンの画面外ならヒット
-            elif self.y < 0 or (self.x < 0 and self.y < SCREEN_HEIGHT // 6) or (self.x > SCREEN_WIDTH and self.y < SCREEN_HEIGHT // 6):
+            if self.y < 0 or (self.x < 0 and self.y < SCREEN_HEIGHT // 6) or (self.x > SCREEN_WIDTH and self.y < SCREEN_HEIGHT // 6):
                 reset()
                 counter.reset()
                 batter.is_change = True

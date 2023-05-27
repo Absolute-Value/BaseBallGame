@@ -36,7 +36,7 @@ def main():
             batter.rotate_right()
 
         # 野球場の描画
-        ball.move(field.base_home, counter, fielders['catcher'], batter)
+        ball.move(field.base_home, counter, fielders, batter)
         if ball.alive and not batter.hit: fielders['catcher'].move(dx=ball.dx)
         if batter.is_change:
             batter = create_batter(field.base_home.x, field.base_home.y)
