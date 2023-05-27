@@ -1,5 +1,7 @@
 # 野球ゲーム | Baseball Game
 
+![](images/hero.png)
+
 pythonを用いて野球ゲームを実装しました．  
 Github Copilotにかなり助けてもらいました．
 Copilotくんは優秀ですね．
