@@ -18,11 +18,16 @@ class Ball():
         self.alive = True
         self.dead_count = random.randint(60, 120)
         self.is_strike = False
+        self.is_swing = False
 
     def move(self, base_home, counter, catcher, batter):
         self.x += self.dx
         self.y += self.dy
         if self.alive:
+            # スイングしたかの判定
+            if (base_home.x - self.x)**2 + (base_home.y - self.y)**2 < (base_home.dirt_radius + self.radius)**2:
+                if -45 < batter.angle < 45:
+                    self.is_swing = True
             # ベースをかすったかのブロードフェーズ判定
             if self.x>base_home.left-self.radius and self.x<base_home.right+self.radius and self.y>base_home.top-self.radius and self.y<base_home.center+self.radius:
                 # ベースをかすったかのナローフェーズ判定 (https://ftvoid.com/blog/post/300)
@@ -41,8 +46,8 @@ class Ball():
                 catcher.reset()
             # キャッチャーが捕球した時
             if (catcher.x - self.x)**2 + (catcher.y - self.y)**2 <= (catcher.radius + self.radius)**2:
-                # ホームベースをかすっていたらストライク
-                if self.is_strike:
+                # ホームベースをかする、またはスイングしていたらストライク
+                if self.is_strike or self.is_swing:
                     counter.strike(batter)
                 else:
                     counter.ball()

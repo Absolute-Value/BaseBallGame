@@ -26,15 +26,13 @@ class HomeBaseAndLine(Base): # ホームベースとベースラインクラス
     def __init__(self, x, y, width=BASE_WIDTH // 4 * 3, height=BASE_HEIGHT // 4 * 3, bias=SCREEN_HEIGHT // 6):
         super().__init__(x, y, width, height)
         self.bias = bias
-        self.dirt_width = width * 10
-        self.dirt_height = height * 10
+        self.dirt_radius = width * 5
         self.batter_box_width = width * 2
         self.batter_box_height = height * 3
         
     def draw(self, screen, color=WHITE, dirt_color=BROWN):
         # ベースの周りの土を描画
-        pygame.draw.ellipse(screen, dirt_color, (self.x - self.dirt_width//2, self.y - self.dirt_height//2, self.dirt_width, self.dirt_height))
-
+        pygame.draw.circle(screen, dirt_color, (self.x, self.y), self.dirt_radius)
         # ベースラインを白で描画
         pygame.draw.line(screen, color, (self.x, self.y), (0, self.bias), width=3)
         pygame.draw.line(screen, color, (self.x, self.y), (SCREEN_WIDTH, self.bias), width=3)
