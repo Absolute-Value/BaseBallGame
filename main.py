@@ -23,6 +23,13 @@ def main():
                 pygame.quit()
                 sys.exit()
 
+        # プレイヤーの入力処理
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_n]:
+            batter.rotate_left()
+        else:
+            batter.rotate_right()
+
         # 野球場の描画
         field.draw(screen)
         ball.move()

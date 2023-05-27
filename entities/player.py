@@ -1,4 +1,5 @@
 import pygame
+import math
 from define import RED, BLUE, LIGHT_BROWN
 
 class Player():
@@ -13,12 +14,24 @@ class Player():
 class Batter(Player):
     def __init__(self, x, y, radius=6):
         super().__init__(x, y, radius)
-        self.width = 32
-        self.height = 4
+        self.bat_width = 4
+        self.bat_length = 36
+        self.angle = -135
+
+    def rotate_right(self):
+        if self.angle > -135:
+            self.angle -= 12
+    
+    def rotate_left(self):
+        if self.angle < 135:
+            self.angle += 6
 
     def draw(self, screen):
+        bat_end_x = self.x + self.bat_length * math.cos(math.radians(self.angle))
+        bat_end_y = self.y + self.bat_length * math.sin(math.radians(self.angle))
+        pygame.draw.line(screen, LIGHT_BROWN, (self.x, self.y), (bat_end_x, bat_end_y), self.bat_width)
         super().draw(screen, color=BLUE)
-        pygame.draw.rect(screen, LIGHT_BROWN, (self.x + self.radius, self.y - self.height//2, self.width, self.height))
+        
 
 # 守備プレイヤークラス
 class Fielders():

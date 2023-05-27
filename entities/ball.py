@@ -1,6 +1,6 @@
 import random
 import pygame
-from define import WHITE
+from define import BALL_COLOR
 
 class Ball():
     def __init__(self, init_x, init_y, radius=4):
@@ -17,4 +17,4 @@ class Ball():
         self.y += self.dy
     
     def draw(self, screen):
-        pygame.draw.circle(screen, WHITE, (self.x, self.y), self.radius)
+        pygame.draw.circle(screen, BALL_COLOR, (self.x, self.y), self.radius)
