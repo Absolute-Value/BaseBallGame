@@ -23,7 +23,7 @@ class Base(): # ベースクラス
                                             (self.x, self.y - self.height//2)]) # 上
         
 class HomeBaseAndLine(Base): # ホームベースとベースラインクラス
-    def __init__(self, x, y, width=BASE_WIDTH // 4 * 3, height=BASE_HEIGHT // 4 * 3, bias=SCREEN_HEIGHT // 6):
+    def __init__(self, x, y, width=HOME_BASE_WIDTH, height=HOME_BASE_HEIGHT, bias=SCREEN_HEIGHT // 6):
         super().__init__(x, y, width, height)
         self.bias = bias
         self.dirt_radius = width * 5
@@ -67,20 +67,20 @@ class HomeBaseAndLine(Base): # ホームベースとベースラインクラス
 class PicherMound(Base): # ピッチャーマウンドクラス
     def __init__(self, x, y, width=BASE_WIDTH, height=BASE_HEIGHT//4):
         super().__init__(x, y, width, height)
-        self.dirt_height = height * 16
+        self.dirt_radius = height * 8 # マウンドの半径
 
     def draw(self, screen, color=WHITE, dirt_color=BROWN):
-        pygame.draw.ellipse(screen, dirt_color, (self.x - self.dirt_width//2, self.y - self.dirt_height//2, self.dirt_width, self.dirt_height))
-        pygame.draw.rect(screen, color, (self.x - self.width//2, self.y - self.height//2, self.width, self.height))
+        pygame.draw.circle(screen, dirt_color, (self.x, self.y), self.dirt_radius) # マウンドの土を描画
+        pygame.draw.rect(screen, color, (self.x - self.width//2, self.y - self.height//2, self.width, self.height)) # ピッチャープレートを白で描画
 
 class Field(): # フィールドクラス
     def __init__(self):
         self.bias = SCREEN_HEIGHT // 6
-        self.picher_mound = PicherMound(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT // 3)
-        self.base_home = HomeBaseAndLine(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT - SCREEN_HEIGHT // 3, bias=self.bias)
-        self.base_first = Base(SCREEN_WIDTH - SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2)
-        self.base_second = Base(SCREEN_WIDTH // 2, self.bias - BASE_HEIGHT // 2)
-        self.base_third = Base(SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2)
+        self.picher_mound = PicherMound(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT // 3) # ピッチャーマウンドを生成
+        self.base_home = HomeBaseAndLine(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT - SCREEN_HEIGHT // 3, bias=self.bias) # ホームベースとベースラインを生成
+        self.base_first = Base(SCREEN_WIDTH - SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2) # 一塁ベースを生成
+        self.base_second = Base(SCREEN_WIDTH // 2, self.bias - BASE_HEIGHT // 2) # 二塁ベースを生成
+        self.base_third = Base(SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2) # 三塁ベースを生成
 
     def draw(self, screen):
         screen.fill(GREEN) # 背景色の描画

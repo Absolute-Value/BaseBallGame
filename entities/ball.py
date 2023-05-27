@@ -1,9 +1,9 @@
 import random
 import pygame
-from define import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_COLOR
+from define import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_COLOR, BALL_RADIUS
 
 class Ball():
-    def __init__(self, init_x, init_y, radius=4):
+    def __init__(self, init_x, init_y, radius=BALL_RADIUS):
         self.init_x = init_x
         self.init_y = init_y
         self.radius = radius

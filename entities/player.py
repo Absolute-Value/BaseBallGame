@@ -1,10 +1,10 @@
 import pygame
 import random
 import math
-from define import RED, BLUE, LIGHT_BROWN
+from define import RED, BLUE, LIGHT_BROWN, PLAYER_RADIUS
 
 class Player():
-    def __init__(self, init_x, init_y, radius=6):
+    def __init__(self, init_x, init_y, radius=PLAYER_RADIUS):
         self.init_x = init_x
         self.init_y = init_y
         self.reset()
@@ -21,8 +21,8 @@ class Player():
     def draw(self, screen, color=RED):
         pygame.draw.circle(screen, color, (self.x, self.y), self.radius)
 
-class RightBatter(Player):
-    def __init__(self, x, y, radius=6):
+class RightBatter(Player): # 右打者
+    def __init__(self, x, y, radius=PLAYER_RADIUS):
         super().__init__(x, y, radius)
         self.bat_width = 6
         self.bat_length = 28
@@ -62,8 +62,8 @@ class RightBatter(Player):
             ball.dy = -speed * math.cos(math.radians(self.angle))
             self.hit = True
 
-class LeftBatter(RightBatter):
-    def __init__(self, x, y, radius=6):
+class LeftBatter(RightBatter): # 左打者
+    def __init__(self, x, y, radius=PLAYER_RADIUS):
         super().__init__(x, y, radius)
         self.bat_length *= -1
         self.angle *= -1

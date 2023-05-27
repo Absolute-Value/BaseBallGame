@@ -2,11 +2,11 @@ import pygame
 from define import *
 
 class Counter():
-    def __init__(self, x=SCREEN_WIDTH-SCREEN_WIDTH//8, y=SCREEN_HEIGHT-SCREEN_HEIGHT//4):
+    def __init__(self, x=SCREEN_WIDTH-SBO_COUNTER_WIDTH, y=SCREEN_HEIGHT-SBO_COUNTER_HEIGHT):
         self.x = x
         self.y = y
-        self.width = SCREEN_WIDTH//8
-        self.height = SCREEN_HEIGHT//4
+        self.width = SBO_COUNTER_WIDTH
+        self.height = SBO_COUNTER_HEIGHT
         self.strike_num = 0
         self.ball_num = 0
         self.out_num = 0
@@ -44,4 +44,4 @@ class Counter():
             text = font.render(text,  True, WHITE)
             screen.blit(text, (self.x, self.y + i*self.height//3))
             for j in range(num):
-                pygame.draw.circle(screen, color, (self.x + self.width//4 * (j+1), self.y + self.height//8 + self.height//3*i), self.height//12)
+                pygame.draw.circle(screen, color, (self.x + self.width//4 * (j+1), self.y + self.height//5 + self.height//3*i), self.height//10)
