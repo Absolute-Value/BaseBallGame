@@ -51,8 +51,9 @@ class RightBatter(Player):
         # バットの線分とボールの中心点との距離がバットの半径とボールの半径の和より小さい場合かつボールがバットの線分の上にある場合はヒットとする
         if distance < ball.radius + self.bat_width / 2 and min(self.x, self.bat_end_x) < ball.x < max(self.x, self.bat_end_x) and min(self.y, self.bat_end_y) < ball.y < max(self.y, self.bat_end_y) and not self.hit:
             # バットの角度に応じてボールの反射角度を計算
-            ball.dx = 6 * math.sin(math.radians(self.angle))
-            ball.dy = -6 * math.cos(math.radians(self.angle))
+            speed = random.random() * 4 + 4
+            ball.dx = speed * math.sin(math.radians(self.angle))
+            ball.dy = -speed * math.cos(math.radians(self.angle))
             self.hit = True
 
 class LeftBatter(RightBatter):
