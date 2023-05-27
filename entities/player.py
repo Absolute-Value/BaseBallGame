@@ -77,7 +77,7 @@ class LeftBatter(RightBatter): # 左打者
             self.angle -= 6
 
 def create_batter(home_x, home_y):
-    if random.random() < 0.5:
+    if random.random() < 0.5: # 50%の確率で右打者を生成
         return RightBatter(home_x - 24, home_y -8)
-    else:
+    else: # 50%の確率で左打者を生成
         return LeftBatter(home_x + 24, home_y -8)       
