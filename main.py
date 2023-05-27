@@ -1,4 +1,5 @@
 import pygame
+import random
 from entities import *
 from define import *
 from field import Field
@@ -12,8 +13,10 @@ def main():
 
     field = Field()
     fielders = Fielders(field)
-    # batter = RightBatter(field.base_home_and_line.x - 30, field.base_home_and_line.y - 10)
-    batter = LeftBatter(field.base_home_and_line.x + 30, field.base_home_and_line.y - 10)
+    if random.random() < 0.5:
+        batter = RightBatter(field.base_home_and_line.x - 30, field.base_home_and_line.y - 10)
+    else:
+        batter = LeftBatter(field.base_home_and_line.x + 30, field.base_home_and_line.y - 10)
     ball = Ball(fielders.pitcher.x, fielders.pitcher.y)
     counter = Counter()
 
