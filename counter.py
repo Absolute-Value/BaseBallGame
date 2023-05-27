@@ -34,6 +34,9 @@ class Counter():
     def draw(self, screen, font_size=FONT_SIZE):
         font = pygame.font.Font(FONT_PATH, font_size)
         pygame.draw.rect(screen, BLACK, (self.x, self.y, self.width, self.height))
-        for i, text in enumerate([f"S:{self.strike_num}",f"B:{self.ball_num}",f"O:{self.out_num}"]):
+        sbo_list = [["S",self.strike_num,YELLOW],["B",self.ball_num,GREEN],["O",self.out_num,RED]]
+        for i, (text, num, color) in enumerate(sbo_list):
             text = font.render(text,  True, WHITE)
             screen.blit(text, (self.x, self.y + i*self.height//3))
+            for j in range(num):
+                pygame.draw.circle(screen, color, (self.x + self.width//4 * (j+1), self.y + self.height//8 + self.height//3*i), self.height//12)
