@@ -25,7 +25,7 @@ class RightBatter(Player):
     def __init__(self, x, y, radius=6):
         super().__init__(x, y, radius)
         self.bat_width = 6
-        self.bat_length = 36
+        self.bat_length = 28
         self.angle = -135
         self.hit = False
         self.is_change = False
@@ -59,8 +59,8 @@ class RightBatter(Player):
 class LeftBatter(RightBatter):
     def __init__(self, x, y, radius=6):
         super().__init__(x, y, radius)
-        self.bat_length = -36
-        self.angle = 135
+        self.bat_length *= -1
+        self.angle *= -1
 
     def rotate_right(self):
         if self.angle < 135:
@@ -72,9 +72,9 @@ class LeftBatter(RightBatter):
 
 def create_batter(home_x, home_y):
     if random.random() < 0.5:
-        return RightBatter(home_x - 30, home_y -10)
+        return RightBatter(home_x - 24, home_y -8)
     else:
-        return LeftBatter(home_x + 30, home_y -10)       
+        return LeftBatter(home_x + 24, home_y -8)       
 
 # 守備プレイヤークラス
 class Fielders():

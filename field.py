@@ -23,12 +23,12 @@ class Base(): # ベースクラス
                                             (self.x, self.y - self.height//2)]) # 上
         
 class HomeBaseAndLine(Base): # ホームベースとベースラインクラス
-    def __init__(self, x, y, width=BASE_WIDTH, height=BASE_HEIGHT, bias=SCREEN_HEIGHT // 6):
+    def __init__(self, x, y, width=BASE_WIDTH // 4 * 3, height=BASE_HEIGHT // 4 * 3, bias=SCREEN_HEIGHT // 6):
         super().__init__(x, y, width, height)
         self.bias = bias
-        self.dirt_width = width * 8
-        self.dirt_height = height * 8
-        self.batter_box_width = width * 1.6
+        self.dirt_width = width * 10
+        self.dirt_height = height * 10
+        self.batter_box_width = width * 2
         self.batter_box_height = height * 3
         
     def draw(self, screen, color=WHITE, dirt_color=BROWN):
