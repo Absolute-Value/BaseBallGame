@@ -6,15 +6,29 @@ class Ball():
     def __init__(self, init_x, init_y, radius=4):
         self.init_x = init_x
         self.init_y = init_y
-        self.x = init_x
-        self.y = init_y
-        self.dx = 0
-        self.dy = random.random() + 1.5
         self.radius = radius
+        self.reset()
 
-    def move(self):
+    def reset(self):
+        self.x = self.init_x
+        self.y = self.init_y
+        self.dx = random.random() * 0.3 - 0.15
+        self.dy = random.random() * 1.5 + 1.5
+        self.alive = True
+        self.dead_count = random.randint(60, 120)
+
+    def move(self, counter, fielders):
         self.x += self.dx
         self.y += self.dy
+        if self.alive:
+            if self.y > fielders.catcher.y:
+                self.alive = False
+                counter.strike()
+        else:
+            self.dead_count -= 1
+            if self.dead_count == 0:
+                self.reset()
     
     def draw(self, screen):
-        pygame.draw.circle(screen, BALL_COLOR, (self.x, self.y), self.radius)
+        if self.alive:
+            pygame.draw.circle(screen, BALL_COLOR, (self.x, self.y), self.radius)

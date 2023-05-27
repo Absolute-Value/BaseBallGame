@@ -32,10 +32,7 @@ def main():
 
         # 野球場の描画
         field.draw(screen)
-        ball.move()
-        if ball.y > fielders.catcher.y:
-            ball = Ball(fielders.pitcher.x, fielders.pitcher.y)
-            counter.strike()
+        ball.move(counter, fielders)
         ball.draw(screen)
         fielders.draw(screen)
         batter.draw(screen)
