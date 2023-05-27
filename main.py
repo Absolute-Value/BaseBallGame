@@ -1,5 +1,4 @@
 import pygame
-import sys
 from entities import *
 from define import *
 from field import Field
@@ -11,17 +10,17 @@ def main():
     pygame.display.set_caption("Baseball Game")
     clock = pygame.time.Clock()
 
-    counter = Counter()
     field = Field()
     fielders = Fielders(field)
-    batter = Batter(field.base_home_and_line.x - 30, field.base_home_and_line.y - 10)
+    # batter = RightBatter(field.base_home_and_line.x - 30, field.base_home_and_line.y - 10)
+    batter = LeftBatter(field.base_home_and_line.x + 30, field.base_home_and_line.y - 10)
     ball = Ball(fielders.pitcher.x, fielders.pitcher.y)
+    counter = Counter()
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
 
         # プレイヤーの入力処理
         keys = pygame.key.get_pressed()

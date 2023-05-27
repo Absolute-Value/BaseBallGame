@@ -1,2 +1,2 @@
 from .ball import Ball
-from .player import Fielders, Batter
+from .player import Fielders, RightBatter, LeftBatter

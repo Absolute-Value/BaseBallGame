@@ -11,7 +11,7 @@ class Player():
     def draw(self, screen, color=RED):
         pygame.draw.circle(screen, color, (self.x, self.y), self.radius)
 
-class Batter(Player):
+class RightBatter(Player):
     def __init__(self, x, y, radius=6):
         super().__init__(x, y, radius)
         self.bat_width = 4
@@ -31,6 +31,20 @@ class Batter(Player):
         bat_end_y = self.y + self.bat_length * math.sin(math.radians(self.angle))
         pygame.draw.line(screen, LIGHT_BROWN, (self.x, self.y), (bat_end_x, bat_end_y), self.bat_width)
         super().draw(screen, color=BLUE)
+
+class LeftBatter(RightBatter):
+    def __init__(self, x, y, radius=6):
+        super().__init__(x, y, radius)
+        self.bat_length = -36
+        self.angle = 135
+
+    def rotate_right(self):
+        if self.angle < 135:
+            self.angle += 12
+    
+    def rotate_left(self):
+        if self.angle > -135:
+            self.angle -= 6
         
 
 # 守備プレイヤークラス
