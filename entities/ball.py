@@ -23,7 +23,7 @@ class Ball():
         self.y += self.dy
         if self.alive:
             # キャッチャーが捕球したらストライク
-            if catcher.y < self.y and catcher.x-catcher.radius//2 < self.x < catcher.x+catcher.radius//2:
+            if (catcher.x - self.x)**2 + (catcher.y - self.y)**2 <= (catcher.radius + self.radius)**2:
                 self.alive = False
                 batter.hit = False
                 catcher.reset()
