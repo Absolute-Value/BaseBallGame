@@ -5,13 +5,16 @@ import sys
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
+BASE_WIDTH = 16
+BASE_HEIGHT = 16
+
 # 色の定義
 WHITE = (255, 255, 255)
 GREEN = (0, 128, 0)
 BROWN = (139, 69, 19)
 
 class Base():
-    def __init__(self, x, y, width=28, height=20):
+    def __init__(self, x, y, width=BASE_WIDTH, height=BASE_HEIGHT):
         self.x = x
         self.y = y
         self.width = width
@@ -30,10 +33,10 @@ class Base():
                                             (self.x, self.y - self.height//2)]) # 上
         
 class HomeBase(Base):
-    def __init__(self, x, y, width=24, height=24):
+    def __init__(self, x, y, width=BASE_WIDTH, height=BASE_HEIGHT):
         super().__init__(x, y, width, height)
         self.dirt_width = width * 8
-        self.dirt_height = height * 4
+        self.dirt_height = height * 8
         
     def draw(self, screen, color=WHITE, dirt_color=BROWN):
         pygame.draw.ellipse(screen, dirt_color, (self.x - self.dirt_width//2, self.y - self.dirt_height//2, self.dirt_width, self.dirt_height))
@@ -44,23 +47,25 @@ class HomeBase(Base):
                                             (self.x + self.width//2, self.y - self.height)]) # 右上
         
 class PicherMound(Base):
-    def __init__(self, x, y, width=96, height=48):
+    def __init__(self, x, y, width=BASE_WIDTH, height=BASE_HEIGHT//4):
         super().__init__(x, y, width, height)
+        self.dirt_height = height * 16
 
     def draw(self, screen, color=WHITE, dirt_color=BROWN):
-        pygame.draw.ellipse(screen, dirt_color, (self.x - self.width//2, self.y - self.height//2, self.width, self.height))
-        pygame.draw.rect(screen, color, (self.x - self.width//8, self.y - self.height//4, self.width // 4, self.height//16))
+        pygame.draw.ellipse(screen, dirt_color, (self.x - self.dirt_width//2, self.y - self.dirt_height//2, self.dirt_width, self.dirt_height))
+        pygame.draw.rect(screen, color, (self.x - self.width//2, self.y - self.height//2, self.width, self.height))
 
 class Field():
     def __init__(self):
-        self.picher_mound = PicherMound(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 3)
-        self.base_home = HomeBase(SCREEN_WIDTH // 2, SCREEN_HEIGHT- SCREEN_HEIGHT // 8)
-        self.base_first = Base(SCREEN_WIDTH - SCREEN_WIDTH // 8, int(SCREEN_HEIGHT * 0.38))
-        self.base_second = Base(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 10)
-        self.base_third = Base(SCREEN_WIDTH // 8, int(SCREEN_HEIGHT * 0.38))
+        self.bias = SCREEN_HEIGHT // 6
+        self.picher_mound = PicherMound(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT // 3)
+        self.base_home = HomeBase(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT - SCREEN_HEIGHT // 3)
+        self.base_first = Base(SCREEN_WIDTH - SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2)
+        self.base_second = Base(SCREEN_WIDTH // 2, self.bias - BASE_HEIGHT // 2)
+        self.base_third = Base(SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2)
 
     def draw(self, screen):
-        screen.fill(GREEN)  # 野球場のグリーン
+        screen.fill(GREEN) # 背景色の描画
         
         self.picher_mound.draw(screen) # ピッチャーマウンドの描画
         self.base_home.draw(screen) # ホームベースの描画
@@ -69,8 +74,8 @@ class Field():
         self.base_third.draw(screen) # 三塁ベースの描画
         
         # ベースラインの描画
-        pygame.draw.line(screen, WHITE, (self.base_home.x, self.base_home.y), (0, SCREEN_HEIGHT // 4), width=3)
-        pygame.draw.line(screen, WHITE, (self.base_home.x, self.base_home.y), (SCREEN_WIDTH, SCREEN_HEIGHT // 4), width=3)
+        pygame.draw.line(screen, WHITE, (self.base_home.x, self.base_home.y), (0, self.bias), width=3)
+        pygame.draw.line(screen, WHITE, (self.base_home.x, self.base_home.y), (SCREEN_WIDTH, self.bias), width=3)
 
 def main():
     pygame.init()
