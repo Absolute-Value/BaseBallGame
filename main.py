@@ -1,24 +1,8 @@
 import pygame
 import sys
+from entities import *
 from define import *
 from field import Field
-
-class Ball():
-    def __init__(self, init_x, init_y, radius=4):
-        self.init_x = init_x
-        self.init_y = init_y
-        self.x = init_x
-        self.y = init_y
-        self.dx = 0
-        self.dy = 2
-        self.radius = radius
-
-    def move_and_draw(self, screen):
-        self.x += self.dx
-        self.y += self.dy
-        if self.y > SCREEN_HEIGHT:
-            self.y = self.init_y
-        pygame.draw.circle(screen, WHITE, (self.x, self.y), self.radius)
 
 def main():
     pygame.init()
@@ -27,7 +11,15 @@ def main():
     clock = pygame.time.Clock()
 
     field = Field()
-    ball = Ball(field.picher_mound.x, field.picher_mound.y)
+    batter = Batter(field.base_home_and_line.x - 30, field.base_home_and_line.y - 10)
+    pitcher = Player(field.picher_mound.x, field.picher_mound.y + 4)
+    catcher = Player(field.base_home_and_line.x, field.base_home_and_line.y + 30)
+    first = Player(field.base_first.x, field.base_first.y - 50)
+    second = Player(field.base_second.x + 100, field.base_second.y)
+    short = Player(field.base_second.x - 100, field.base_second.y)
+    third = Player(field.base_third.x, field.base_third.y - 50)
+
+    ball = Ball(pitcher.x, pitcher.y)
 
     while True:
         for event in pygame.event.get():
@@ -37,7 +29,17 @@ def main():
 
         # 野球場の描画
         field.draw(screen)
-        ball.move_and_draw(screen)
+        ball.move()
+        if ball.y > catcher.y:
+            ball = Ball(pitcher.x, pitcher.y)
+        ball.draw(screen)
+        pitcher.draw(screen)
+        batter.draw(screen)
+        catcher.draw(screen)
+        first.draw(screen)
+        second.draw(screen)
+        short.draw(screen)
+        third.draw(screen)
 
         pygame.display.update()
         clock.tick(60)

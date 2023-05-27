@@ -7,5 +7,8 @@ BASE_HEIGHT = 16
 
 # 色の定義
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 GREEN = (0, 128, 0)
+BLUE = (0, 0, 255)
 BROWN = (139, 69, 19)
+LIGHT_BROWN = (222, 184, 135)
