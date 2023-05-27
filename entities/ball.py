@@ -8,6 +8,7 @@ class Ball():
         self.init_y = init_y
         self.radius = radius
         self.reset()
+        self.alive = False
 
     def reset(self):
         self.x = self.init_x
