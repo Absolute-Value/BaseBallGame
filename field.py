@@ -56,11 +56,15 @@ class HomeBaseAndLine(Base): # ホームベースとベースラインクラス
                                          self.batter_box_height), width=2) # 右のバッターボックス
         
         # ホームベースを白で描画
-        pygame.draw.polygon(screen, color, [(self.x - self.width//2, self.y - self.height), # 左上
-                                            (self.x - self.width//2, self.y - self.height//2), # 左下
-                                            (self.x, self.y), # 下
-                                            (self.x + self.width//2, self.y - self.height//2), # 右下
-                                            (self.x + self.width//2, self.y - self.height)]) # 右上
+        self.left = self.x - self.width//2
+        self.right = self.x + self.width//2
+        self.top = self.y - self.height
+        self.center = self.y - self.height//2
+        pygame.draw.polygon(screen, color, [(self.left, self.top), 
+                                            (self.left, self.center), 
+                                            (self.x, self.y), 
+                                            (self.right, self.center), 
+                                            (self.right, self.top)])
         
 class PicherMound(Base): # ピッチャーマウンドクラス
     def __init__(self, x, y, width=BASE_WIDTH, height=BASE_HEIGHT//4):
@@ -75,7 +79,7 @@ class Field(): # フィールドクラス
     def __init__(self):
         self.bias = SCREEN_HEIGHT // 6
         self.picher_mound = PicherMound(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT // 3)
-        self.base_home_and_line = HomeBaseAndLine(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT - SCREEN_HEIGHT // 3, bias=self.bias)
+        self.base_home = HomeBaseAndLine(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT - SCREEN_HEIGHT // 3, bias=self.bias)
         self.base_first = Base(SCREEN_WIDTH - SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2)
         self.base_second = Base(SCREEN_WIDTH // 2, self.bias - BASE_HEIGHT // 2)
         self.base_third = Base(SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2)
@@ -87,4 +91,4 @@ class Field(): # フィールドクラス
         self.base_first.draw(screen) # 一塁ベースの描画
         self.base_second.draw(screen) # 二塁ベースの描画
         self.base_third.draw(screen) # 三塁ベースの描画
-        self.base_home_and_line.draw(screen) # ホームベースの描画
+        self.base_home.draw(screen) # ホームベースの描画

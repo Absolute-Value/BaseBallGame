@@ -12,7 +12,7 @@ def main():
 
     field = Field()
     fielders = Fielders(field)
-    batter = create_batter(field.base_home_and_line.x, field.base_home_and_line.y)
+    batter = create_batter(field.base_home.x, field.base_home.y)
     ball = Ball(fielders.pitcher.x, fielders.pitcher.y)
     counter = Counter()
 
@@ -29,10 +29,10 @@ def main():
             batter.rotate_right()
 
         # 野球場の描画
-        ball.move(counter, fielders.catcher, batter)
+        ball.move(field.base_home, counter, fielders.catcher, batter)
         if ball.alive and not batter.hit: fielders.catcher.move(dx=ball.dx)
         if batter.is_out:
-            batter = create_batter(field.base_home_and_line.x, field.base_home_and_line.y)
+            batter = create_batter(field.base_home.x, field.base_home.y)
 
         batter.check_collision(ball)
 
