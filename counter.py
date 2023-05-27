@@ -17,6 +17,10 @@ class Counter():
             self.out()
             batter.is_out = True
 
+    def foul(self):
+        if self.strike_num < 2:
+            self.strike_num += 1
+
     def ball(self):
         self.ball_num += 1
         if self.ball_num >= 4:

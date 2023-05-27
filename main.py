@@ -1,5 +1,4 @@
 import pygame
-import random
 from entities import *
 from define import *
 from field import Field
@@ -30,10 +29,12 @@ def main():
             batter.rotate_right()
 
         # 野球場の描画
-        is_strike = ball.move(fielders)
-        if is_strike: counter.strike(batter)
+        ball.move(counter, fielders.catcher, batter)
+        if ball.alive and not batter.hit: fielders.catcher.move(dx=ball.dx)
         if batter.is_out:
             batter = create_batter(field.base_home_and_line.x, field.base_home_and_line.y)
+
+        batter.check_collision(ball)
 
         field.draw(screen)
         ball.draw(screen)

@@ -1,6 +1,6 @@
 import random
 import pygame
-from define import BALL_COLOR
+from define import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_COLOR
 
 class Ball():
     def __init__(self, init_x, init_y, radius=4):
@@ -18,13 +18,29 @@ class Ball():
         self.alive = True
         self.dead_count = random.randint(60, 120)
 
-    def move(self, fielders) -> bool:
+    def move(self, counter, catcher, batter) -> bool:
         self.x += self.dx
         self.y += self.dy
         if self.alive:
-            if self.y > fielders.catcher.y:
+            # キャッチャーが捕球したらストライク
+            if catcher.y < self.y and catcher.x-catcher.radius//2 < self.x < catcher.x+catcher.radius//2:
                 self.alive = False
-                return True
+                batter.hit = False
+                catcher.reset()
+                counter.strike(batter)
+            # フェアゾーンの画面外ならヒット
+            elif self.y < 0 or (self.x < 0 and self.y < SCREEN_HEIGHT // 6) or (self.x > SCREEN_WIDTH and self.y < SCREEN_HEIGHT // 6):
+                self.alive = False
+                batter.hit = False
+                catcher.reset()
+                counter.reset()
+            # ファウルゾーンの画面外ならファウル
+            elif SCREEN_HEIGHT < self.y or self.x < 0 or SCREEN_WIDTH < self.x:
+                self.alive = False
+                batter.hit = False
+                catcher.reset()
+                counter.foul()
+                
         else:
             self.dead_count -= 1
             if self.dead_count == 0:
