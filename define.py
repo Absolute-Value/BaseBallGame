@@ -5,7 +5,12 @@ SCREEN_HEIGHT = 600
 BASE_WIDTH = 16
 BASE_HEIGHT = 16
 
+# フォント
+FONT_PATH = 'Nosutaru-dotMPlusH-10-Regular.ttf'
+FONT_SIZE = 32
+
 # 色の定義
+BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 128, 0)
