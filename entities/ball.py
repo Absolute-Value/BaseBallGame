@@ -17,16 +17,15 @@ class Ball():
         self.dy = random.random() * 3 + 2
         self.alive = True
         self.dead_count = random.randint(60, 120)
-        self.strike = False
+        self.is_strike = False
 
     def move(self, base_home, counter, catcher, batter):
         self.x += self.dx
         self.y += self.dy
         if self.alive:
-            # ブロードフェーズ判定
+            # ベースをかすったかのブロードフェーズ判定
             if self.x>base_home.left-self.radius and self.x<base_home.right+self.radius and self.y>base_home.top-self.radius and self.y<base_home.center+self.radius:
-                # ナローフェーズ判定
-                # https://ftvoid.com/blog/post/300
+                # ベースをかすったかのナローフェーズ判定 (https://ftvoid.com/blog/post/300)
                 condition_a = self.x>base_home.left and self.x<base_home.right and self.y>base_home.top-self.radius and self.y<base_home.center+self.radius
                 condition_b = self.x>base_home.left-self.radius and self.x<base_home.right+self.radius and self.y>base_home.top and self.y<base_home.center
                 condition_c = (base_home.left-self.x)**2+(base_home.top-self.y)**2<(self.radius)**2
@@ -34,16 +33,16 @@ class Ball():
                 condition_e = (base_home.right-self.x)**2+(base_home.center-self.y)**2<(self.radius)**2
                 condition_f = (base_home.left-self.x)**2+(base_home.center-self.y)**2<(self.radius)**2
                 if condition_a or condition_b or condition_c or condition_d or condition_e or condition_f:
-                    self.strike = True
+                    self.is_strike = True
             def reset():
                 self.alive = False
-                self.strike = False
+                self.is_strike = False
                 batter.hit = False
                 catcher.reset()
             # キャッチャーが捕球した時
             if (catcher.x - self.x)**2 + (catcher.y - self.y)**2 <= (catcher.radius + self.radius)**2:
                 # ホームベースをかすっていたらストライク
-                if self.strike:
+                if self.is_strike:
                     counter.strike(batter)
                 else:
                     counter.ball()
