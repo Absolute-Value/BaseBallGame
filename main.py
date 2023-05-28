@@ -29,6 +29,8 @@ def main():
                 pygame.quit()
 
         keys = pygame.key.get_pressed() # 押されているキーをチェック
+        if keys[pygame.K_ESCAPE]: # ESCキーが押されたら終了
+            pygame.quit()
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             batter.move(dx=-1)
         elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
