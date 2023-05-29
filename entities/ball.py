@@ -4,7 +4,8 @@ import pygame
 from define import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_COLOR, BALL_RADIUS
 
 class Ball():
-    def __init__(self, init_x, init_y, radius=BALL_RADIUS):
+    def __init__(self, field, init_x, init_y, radius=BALL_RADIUS):
+        self.field = field
         self.init_x = init_x
         self.init_y = init_y
         self.radius = radius
@@ -50,17 +51,33 @@ class Ball():
             # 野手が捕球した時
             for pos_name, fielder in fielders.items():
                 if (fielder.x - self.x)**2 + (fielder.y - self.y)**2 <= (fielder.radius + self.radius)**2:
-                    if pos_name == 'catcher': # キャッチャーが捕球した時
+                    if pos_name == 'catcher' and not batter.is_hit: # からぶってキャッチャーが捕球した時
                         # ホームベースをかする、またはスイングしていたらストライク
                         if self.is_strike or self.is_swing:
                             sbo_counter.strike(batter)
+                            reset()
                         else:
                             sbo_counter.ball()
-                    elif pos_name == 'pitcher' and not batter.is_hit: # ピッチャーが捕球した時
+                            reset()
+                    elif pos_name == 'pitcher' and not batter.is_hit: # ピッチャーがボールを投げる前
                         continue
+                    elif pos_name == 'first':
+                        # もしバッターがファーストに到達していたらセーフ
+                        if (batter.x - self.field['base_first'].x)**2 + (batter.y - self.field['base_first'].y)**2 <= (batter.radius + self.field['base_first'].width//2)**2:
+                            reset()
+                            sbo_counter.reset()
+                            batter.is_change = True
+                        else:
+                            sbo_counter.out()
                     else:
-                        sbo_counter.out()
-                    reset()
+                        # ファーストに送球
+                        speed = 3
+                        dx = self.field['base_first'].x - self.x
+                        dy = self.field['base_first'].y - self.y
+                        distance = math.sqrt(dx**2 + dy**2)
+                        if distance > 1:
+                            self.dx = (dx / distance) * speed
+                            self.dy = (dy / distance) * speed
                     return
             # フェアゾーンの画面外ならヒット
             if self.y < 0 or (self.x < 0 and self.y < SCREEN_HEIGHT // 6) or (self.x > SCREEN_WIDTH and self.y < SCREEN_HEIGHT // 6):

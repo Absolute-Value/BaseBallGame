@@ -13,7 +13,7 @@ def main():
     field = Field() # フィールドを生成
     batter = create_batter(field['base_home'].x, field['base_home'].y) # バッターを生成
     fielders = Fielders(field) # 野手を生成
-    ball = Ball(fielders['pitcher'].x, fielders['pitcher'].y) # ボールを生成
+    ball = Ball(field,fielders['pitcher'].x, fielders['pitcher'].y) # ボールを生成
     sbo_counter = SBOCounter() # SBOカウンターを生成
 
     while True:
@@ -24,18 +24,19 @@ def main():
         keys = pygame.key.get_pressed() # 押されているキーをチェック
         if keys[pygame.K_ESCAPE]: # ESCキーが押されたら終了
             pygame.quit()
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            batter.dx=-1
-        elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            batter.dx=1
-        if keys[pygame.K_UP] or keys[pygame.K_w]:
-            batter.dy=-1
-        elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
-            batter.dy=1
-        if keys[pygame.K_n]: # Nキーが押されている場合
-            batter.swing() # バットをスイング
-        else: # Nキーが押されていない場合
-            batter.swing_back() # バットを元の位置に戻す
+        if not batter.is_hit: # バットがヒットしていない場合
+            if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+                batter.dx=-1
+            elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+                batter.dx=1
+            if keys[pygame.K_UP] or keys[pygame.K_w]:
+                batter.dy=-1
+            elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
+                batter.dy=1
+            if keys[pygame.K_n]: # Nキーが押されている場合
+                batter.swing() # バットをスイング
+            else: # Nキーが押されていない場合
+                batter.swing_back() # バットを元の位置に戻す
 
         batter.move(field) # バッターの移動
         fielders.move(ball, batter) # 野手の移動
