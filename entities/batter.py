@@ -5,8 +5,9 @@ from define import BLUE, LIGHT_BROWN, PLAYER_RADIUS
 from .player import Player
 
 class Batter(Player): # 打者
-    def __init__(self, x, y, radius=PLAYER_RADIUS):
-        super().__init__(x, y, radius)
+    def __init__(self, init_x, init_y, radius=PLAYER_RADIUS):
+        self.dx, self.dy = 0, 0
+        self.speed = 0
         self.bat_width = 6
         self.bat_length = 28
         self.init_angle = 120
@@ -14,8 +15,12 @@ class Batter(Player): # 打者
         self.swing_speed = 15
         self.swing_back_speed = 6
         self.swing_count = 0
-        self.hit = False
         self.is_change = False
+        super().__init__(init_x, init_y, radius)
+
+    def reset(self):
+        super().reset()
+        self.hit = False
 
     def swing(self):
         if self.angle > -135 and self.angle < 135:
@@ -30,14 +35,27 @@ class Batter(Player): # 打者
         if self.angle <= -135 or self.angle >= 135:
             self.angle = self.init_angle if isinstance(self, RightBatter) else -self.init_angle
 
-    def move(self, dx=0, dy=0):
-        if self.init_x -5 < self.x + dx < self.init_x + 5:
-            self.x += dx
-        if self.init_y -8 < self.y + dy < self.init_y + 8:
-            self.y += dy
+    def move(self, field):
+        if self.hit: # バットがヒットしたら
+            if self.speed < 2:
+                self.speed += 0.05
+            # 一塁ベースに向かって移動
+            dx = field['base_first'].x - self.x
+            dy = field['base_first'].y - self.y
+            distance = math.sqrt(dx**2 + dy**2)
+            if distance != 0:
+                self.x += (dx / distance) * self.speed
+                self.y += (dy / distance) * self.speed
+        else:
+            if self.init_x -5 < self.x + self.dx < self.init_x + 5:
+                self.x += self.dx
+            if self.init_y -8 < self.y + self.dy < self.init_y + 8:
+                self.y += self.dy
 
     def draw(self, screen):
-        pygame.draw.line(screen, LIGHT_BROWN, (self.x, self.y), (self.bat_end_x, self.bat_end_y), self.bat_width)
+        self.dx, self.dy = 0, 0
+        if not self.hit:
+            pygame.draw.line(screen, LIGHT_BROWN, (self.x, self.y), (self.bat_end_x, self.bat_end_y), self.bat_width)
         super().draw(screen, color=BLUE)
 
     def check_collision(self, ball):

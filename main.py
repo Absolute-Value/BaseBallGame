@@ -25,18 +25,19 @@ def main():
         if keys[pygame.K_ESCAPE]: # ESCキーが押されたら終了
             pygame.quit()
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            batter.move(dx=-1)
+            batter.dx=-1
         elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            batter.move(dx=1)
+            batter.dx=1
         if keys[pygame.K_UP] or keys[pygame.K_w]:
-            batter.move(dy=-1)
+            batter.dy=-1
         elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
-            batter.move(dy=1)
+            batter.dy=1
         if keys[pygame.K_n]: # Nキーが押されている場合
             batter.swing() # バットをスイング
         else: # Nキーが押されていない場合
             batter.swing_back() # バットを元の位置に戻す
 
+        batter.move(field) # バッターの移動
         ball.move(field['base_home'], sbo_counter, fielders, batter)
         if ball.alive and not batter.hit: fielders['catcher'].move(dx=ball.dx)
         if batter.is_change:

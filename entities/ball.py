@@ -45,7 +45,7 @@ class Ball():
             def reset():
                 self.alive = False
                 self.is_strike = False
-                batter.hit = False
+                batter.reset()
                 fielders.reset()
             # 野手が捕球した時
             for pos_name, fielder in fielders.items():
