@@ -20,7 +20,7 @@ class Ball():
         self.is_strike = False
         self.is_swing = False
 
-    def move(self, base_home, counter, fielders, batter):
+    def move(self, base_home, sbo_counter, fielders, batter):
         self.x += self.dx
         self.y += self.dy
         if self.alive:
@@ -52,24 +52,24 @@ class Ball():
                     if pos_name == 'catcher':
                         # ホームベースをかする、またはスイングしていたらストライク
                         if self.is_strike or self.is_swing:
-                            counter.strike(batter)
+                            sbo_counter.strike(batter)
                         else:
-                            counter.ball()
+                            sbo_counter.ball()
                     elif pos_name == 'pitcher':
                         continue
                     else:
-                        counter.out()
+                        sbo_counter.out()
                     reset()
                     return
             # フェアゾーンの画面外ならヒット
             if self.y < 0 or (self.x < 0 and self.y < SCREEN_HEIGHT // 6) or (self.x > SCREEN_WIDTH and self.y < SCREEN_HEIGHT // 6):
                 reset()
-                counter.reset()
+                sbo_counter.reset()
                 batter.is_change = True
             # ファウルゾーンの画面外ならファウル
             elif SCREEN_HEIGHT < self.y or self.x < 0 or SCREEN_WIDTH < self.x:
                 reset()
-                counter.foul()
+                sbo_counter.foul()
                 
         else:
             self.dead_count -= 1

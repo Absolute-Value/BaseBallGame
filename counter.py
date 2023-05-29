@@ -1,7 +1,7 @@
 import pygame
 from define import *
 
-class Counter():
+class SBOCounter():
     def __init__(self, x=SCREEN_WIDTH-SBO_COUNTER_WIDTH, y=SCREEN_HEIGHT-SBO_COUNTER_HEIGHT):
         self.x = x
         self.y = y
