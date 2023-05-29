@@ -56,7 +56,7 @@ class Ball():
                             sbo_counter.strike(batter)
                         else:
                             sbo_counter.ball()
-                    elif pos_name == 'pitcher' and not batter.hit: # ピッチャーが捕球した時
+                    elif pos_name == 'pitcher' and not batter.is_hit: # ピッチャーが捕球した時
                         continue
                     else:
                         sbo_counter.out()

@@ -11,8 +11,8 @@ def main():
     clock = pygame.time.Clock() # フレームレートを管理するためのClockオブジェクトを生成
 
     field = Field() # フィールドを生成
-    fielders = Fielders(field) # 野手を生成
     batter = create_batter(field['base_home'].x, field['base_home'].y) # バッターを生成
+    fielders = Fielders(field) # 野手を生成
     ball = Ball(fielders['pitcher'].x, fielders['pitcher'].y) # ボールを生成
     sbo_counter = SBOCounter() # SBOカウンターを生成
 
@@ -38,8 +38,8 @@ def main():
             batter.swing_back() # バットを元の位置に戻す
 
         batter.move(field) # バッターの移動
+        fielders.move(ball, batter) # 野手の移動
         ball.move(field['base_home'], sbo_counter, fielders, batter)
-        if ball.alive and not batter.hit: fielders['catcher'].move(dx=ball.dx)
         if batter.is_change:
             batter = create_batter(field['base_home'].x, field['base_home'].y)
 
