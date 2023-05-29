@@ -62,17 +62,18 @@ class Ball():
                     elif pos_name == 'pitcher' and not batter.is_hit: # ピッチャーがボールを投げる前
                         continue
                     elif pos_name == 'first':
+                        self.dx, self.dy = 0, 0
                         # もしバッターがファーストに到達していたらセーフ
-                        if (batter.x - self.field['base_first'].x)**2 + (batter.y - self.field['base_first'].y)**2 <= (batter.radius + self.field['base_first'].width//2)**2:
-                            reset()
-                            sbo_counter.reset()
-                            batter.is_change = True
-                        else:
+                        batter_distance = math.sqrt((batter.x - self.field['base_first'].x)**2 + (batter.y - self.field['base_first'].y)**2)
+                        if batter_distance >= 1:
                             sbo_counter.out()
+                        batter.is_change = True
+                        reset()
+                        sbo_counter.reset()
                     else:
                         # ファーストに送球
-                        speed = 3
-                        dx = self.field['base_first'].x - self.x
+                        speed = 4
+                        dx = self.field['base_first'].x-5 - self.x
                         dy = self.field['base_first'].y - self.y
                         distance = math.sqrt(dx**2 + dy**2)
                         if distance > 1:

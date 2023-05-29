@@ -41,7 +41,7 @@ class Batter(Player): # 打者
             dx = field['base_first'].x - self.x
             dy = field['base_first'].y - self.y
             distance = math.sqrt(dx**2 + dy**2)
-            if distance > 1:
+            if distance >= 1:
                 self.x += (dx / distance) * self.speed
                 self.y += (dy / distance) * self.speed
         else:

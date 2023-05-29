@@ -28,7 +28,16 @@ class Fielder(Player):
         super().__init__(init_x, init_y, radius)
 
     def move(self, ball, batter):
-        super().move()
+        if batter.is_hit: # バッターがヒットしたら
+            if self.speed < 2:
+                self.speed += 0.05
+            # ボールに向かって移動
+            dx = ball.x-5 - self.x
+            dy = ball.y - self.y
+            distance = math.sqrt(dx**2 + dy**2)
+            if distance > 1:
+                self.x += (dx / distance) * self.speed
+                self.y += (dy / distance) * self.speed
 
 class Catcher(Fielder): # キャッチャー
     def move(self, ball, batter):
