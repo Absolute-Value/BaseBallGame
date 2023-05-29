@@ -66,7 +66,10 @@ class Fielders():
             'first': First(field, field['base_first'].x, field['base_first'].y - 50), # 一塁手を生成
             'second': Fielder(field, field['base_second'].x + 120, field['base_second'].y + 10), # 二塁手を生成
             'short': Fielder(field, field['base_second'].x - 120, field['base_second'].y + 10), # 遊撃手を生成
-            'third': Fielder(field, field['base_third'].x, field['base_third'].y - 50) # 三塁手を生成
+            'third': Fielder(field, field['base_third'].x, field['base_third'].y - 50), # 三塁手を生成
+            'right': Fielder(field, field['right_wall'].left_x+50, field['right_wall'].left_y+200), # 右翼手を生成
+            'center': Fielder(field, field['base_second'].x, field['center_wall'].left_y+100), # 中堅手を生成
+            'left': Fielder(field, field['left_wall'].right_x-50, field['left_wall'].right_y+200) # 左翼手を生成
         }
 
     def __getitem__(self, key):
