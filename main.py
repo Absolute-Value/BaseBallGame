@@ -40,9 +40,9 @@ def main():
         elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
             batter.move(dy=1)
         if keys[pygame.K_n]: # Nキーが押されている場合
-            batter.rotate_left() # バットを左に回転
+            batter.swing() # バットを左に回転
         else: # Nキーが押されていない場合
-            batter.rotate_right() # バットを右に回転
+            batter.swing_back() # バットを右に回転
 
         ball.move(field.base_home, counter, fielders, batter)
         if ball.alive and not batter.hit: fielders['catcher'].move(dx=ball.dx)

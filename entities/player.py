@@ -26,17 +26,19 @@ class RightBatter(Player): # 右打者
         super().__init__(x, y, radius)
         self.bat_width = 6
         self.bat_length = 28
-        self.angle = -135
+        self.angle = 135
+        self.swing_speed = 15
+        self.swing_back_speed = 6
         self.hit = False
         self.is_change = False
 
-    def rotate_right(self):
+    def swing(self):
         if self.angle > -135:
-            self.angle -= 12
+            self.angle -= self.swing_speed
     
-    def rotate_left(self):
+    def swing_back(self):
         if self.angle < 135:
-            self.angle += 6
+            self.angle += self.swing_back_speed
 
     def move(self, dx=0, dy=0):
         if self.init_x -5 < self.x + dx < self.init_x + 5:
@@ -68,13 +70,13 @@ class LeftBatter(RightBatter): # 左打者
         self.bat_length *= -1
         self.angle *= -1
 
-    def rotate_right(self):
+    def swing(self):
         if self.angle < 135:
-            self.angle += 12
+            self.angle += self.swing_speed
     
-    def rotate_left(self):
+    def swing_back(self):
         if self.angle > -135:
-            self.angle -= 6
+            self.angle -= self.swing_back_speed
 
 def create_batter(home_x, home_y):
     if random.random() < 0.5: # 50%の確率で右打者を生成
