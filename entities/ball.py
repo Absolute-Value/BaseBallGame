@@ -46,19 +46,17 @@ class Ball():
                 self.alive = False
                 self.is_strike = False
                 batter.hit = False
-                for fielder in fielders.values():
-                    fielder.reset()
+                fielders.reset()
             # 野手が捕球した時
             for pos_name, fielder in fielders.items():
                 if (fielder.x - self.x)**2 + (fielder.y - self.y)**2 <= (fielder.radius + self.radius)**2:
-                    # キャッチャーが捕球した時
-                    if pos_name == 'catcher':
+                    if pos_name == 'catcher': # キャッチャーが捕球した時
                         # ホームベースをかする、またはスイングしていたらストライク
                         if self.is_strike or self.is_swing:
                             sbo_counter.strike(batter)
                         else:
                             sbo_counter.ball()
-                    elif pos_name == 'pitcher':
+                    elif pos_name == 'pitcher' and not batter.hit: # ピッチャーが捕球した時
                         continue
                     else:
                         sbo_counter.out()

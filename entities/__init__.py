@@ -1,3 +1,3 @@
 from .ball import Ball
-from .player import Player
+from .player import Fielders
 from .batter import create_batter

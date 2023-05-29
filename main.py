@@ -11,14 +11,7 @@ def main():
     clock = pygame.time.Clock() # フレームレートを管理するためのClockオブジェクトを生成
 
     field = Field() # フィールドを生成
-    fielders = {
-        'pitcher': Player(field.picher_mound.x, field.picher_mound.y + 4), # ピッチャーを生成
-        'catcher': Player(field.base_home.x, field.base_home.y + 30), # キャッチャーを生成
-        'first': Player(field.base_first.x, field.base_first.y - 50), # 一塁手を生成
-        'second': Player(field.base_second.x + 120, field.base_second.y + 10), # 二塁手を生成
-        'short': Player(field.base_second.x - 120, field.base_second.y + 10), # 遊撃手を生成
-        'third': Player(field.base_third.x, field.base_third.y - 50) # 三塁手を生成
-    } # 野手を生成
+    fielders = Fielders(field) # 野手を生成
     batter = create_batter(field.base_home.x, field.base_home.y) # バッターを生成
     ball = Ball(fielders['pitcher'].x, fielders['pitcher'].y) # ボールを生成
     sbo_counter = SBOCounter() # SBOカウンターを生成
@@ -53,8 +46,7 @@ def main():
 
         field.draw(screen) # 野球場の描画
         ball.draw(screen) # ボールの描画
-        for fielder in fielders.values():
-            fielder.draw(screen) # 野手の描画
+        fielders.draw(screen) # 野手の描画
         batter.draw(screen) # バッターの描画
         sbo_counter.draw(screen) # SBOカウンターの描画
 
