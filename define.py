@@ -26,6 +26,9 @@ BALL_RADIUS = 4
 # プレイヤーの半径
 PLAYER_RADIUS = 6
 
+# 野手のボール保持時間
+FIELDER_HOLD_TIME = 8
+
 # フォント
 FONT_PATH = 'Nosutaru-dotMPlusH-10-Regular.ttf'
 FONT_SIZE = 32

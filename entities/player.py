@@ -1,6 +1,6 @@
 import pygame
 import math
-from define import RED, PLAYER_RADIUS
+from define import RED, PLAYER_RADIUS, FIELDER_HOLD_TIME
 
 class Player():
     def __init__(self, init_x, init_y, radius=PLAYER_RADIUS):
@@ -28,7 +28,7 @@ class Fielder(Player):
         super().__init__(init_x, init_y, radius)
 
     def move(self, ball, batter):
-        if batter.is_hit: # バッターがヒットしたら
+        if batter.is_hit and ball.hold_time == FIELDER_HOLD_TIME: # バッターがヒットしていて、野手が拾えていない場合
             if self.speed < 2:
                 self.speed += 0.05
             # ボールに向かって移動

@@ -1,7 +1,7 @@
 import random
 import math
 import pygame
-from define import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_COLOR, BALL_RADIUS
+from define import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_COLOR, BALL_RADIUS, FIELDER_HOLD_TIME
 
 class Ball():
     def __init__(self, field, init_x, init_y, radius=BALL_RADIUS):
@@ -23,6 +23,7 @@ class Ball():
         self.dead_count = random.randint(60, 120)
         self.is_strike = False
         self.is_swing = False
+        self.hold_time = FIELDER_HOLD_TIME
 
     def move(self, base_home, sbo_counter, fielders, batter):
         self.x += self.dx
@@ -71,14 +72,18 @@ class Ball():
                         reset()
                         sbo_counter.reset()
                     else:
-                        # ファーストに送球
-                        speed = 4
-                        dx = self.field['base_first'].x-5 - self.x
-                        dy = self.field['base_first'].y - self.y
-                        distance = math.sqrt(dx**2 + dy**2)
-                        if distance > 1:
-                            self.dx = (dx / distance) * speed
-                            self.dy = (dy / distance) * speed
+                        if self.hold_time == 0:
+                            # ファーストに送球
+                            speed = 4
+                            dx = self.field['base_first'].x-5 - self.x
+                            dy = self.field['base_first'].y - self.y
+                            distance = math.sqrt(dx**2 + dy**2)
+                            if distance > 1:
+                                self.dx = (dx / distance) * speed
+                                self.dy = (dy / distance) * speed
+                        else:
+                            self.hold_time -= 1
+                            self.dx, self.dy = 0, 0
                     return
             # フェアゾーンの画面外ならヒット
             if self.y < 0 or (self.x < 0 and self.y < SCREEN_HEIGHT // 6) or (self.x > SCREEN_WIDTH and self.y < SCREEN_HEIGHT // 6):
