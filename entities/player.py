@@ -22,12 +22,12 @@ class Player():
 class Fielders():
     def __init__(self, field):
         self.data = {
-            'pitcher': Player(field.picher_mound.x, field.picher_mound.y + 4), # ピッチャーを生成
-            'catcher': Player(field.base_home.x, field.base_home.y + 30), # キャッチャーを生成
-            'first': Player(field.base_first.x, field.base_first.y - 50), # 一塁手を生成
-            'second': Player(field.base_second.x + 120, field.base_second.y + 10), # 二塁手を生成
-            'short': Player(field.base_second.x - 120, field.base_second.y + 10), # 遊撃手を生成
-            'third': Player(field.base_third.x, field.base_third.y - 50) # 三塁手を生成
+            'pitcher': Player(field['pitcher_mound'].x, field['pitcher_mound'].y + 4), # ピッチャーを生成
+            'catcher': Player(field['base_home'].x, field['base_home'].y + 30), # キャッチャーを生成
+            'first': Player(field['base_first'].x, field['base_first'].y - 50), # 一塁手を生成
+            'second': Player(field['base_second'].x + 120, field['base_second'].y + 10), # 二塁手を生成
+            'short': Player(field['base_second'].x - 120, field['base_second'].y + 10), # 遊撃手を生成
+            'third': Player(field['base_third'].x, field['base_third'].y - 50) # 三塁手を生成
         }
 
     def __getitem__(self, key):

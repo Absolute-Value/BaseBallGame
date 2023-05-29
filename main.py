@@ -12,7 +12,7 @@ def main():
 
     field = Field() # フィールドを生成
     fielders = Fielders(field) # 野手を生成
-    batter = create_batter(field.base_home.x, field.base_home.y) # バッターを生成
+    batter = create_batter(field['base_home'].x, field['base_home'].y) # バッターを生成
     ball = Ball(fielders['pitcher'].x, fielders['pitcher'].y) # ボールを生成
     sbo_counter = SBOCounter() # SBOカウンターを生成
 
@@ -37,10 +37,10 @@ def main():
         else: # Nキーが押されていない場合
             batter.swing_back() # バットを元の位置に戻す
 
-        ball.move(field.base_home, sbo_counter, fielders, batter)
+        ball.move(field['base_home'], sbo_counter, fielders, batter)
         if ball.alive and not batter.hit: fielders['catcher'].move(dx=ball.dx)
         if batter.is_change:
-            batter = create_batter(field.base_home.x, field.base_home.y)
+            batter = create_batter(field['base_home'].x, field['base_home'].y)
 
         batter.check_collision(ball) # バッターとボールの衝突判定
 

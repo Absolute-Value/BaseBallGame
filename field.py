@@ -64,7 +64,7 @@ class HomeBaseAndLine(Base): # ホームベースとベースラインクラス
                                             (self.right, self.center), 
                                             (self.right, self.top)])
         
-class PicherMound(Base): # ピッチャーマウンドクラス
+class PitcherMound(Base): # ピッチャーマウンドクラス
     def __init__(self, x, y, width=BASE_WIDTH, height=BASE_HEIGHT//4):
         super().__init__(x, y, width, height)
         self.dirt_radius = height * 8 # マウンドの半径
@@ -76,17 +76,18 @@ class PicherMound(Base): # ピッチャーマウンドクラス
 class Field(): # フィールドクラス
     def __init__(self):
         self.bias = SCREEN_HEIGHT // 6
-        self.picher_mound = PicherMound(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT // 3) # ピッチャーマウンドを生成
-        self.base_home = HomeBaseAndLine(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT - SCREEN_HEIGHT // 3, bias=self.bias) # ホームベースとベースラインを生成
-        self.base_first = Base(SCREEN_WIDTH - SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2) # 一塁ベースを生成
-        self.base_second = Base(SCREEN_WIDTH // 2, self.bias - BASE_HEIGHT // 2) # 二塁ベースを生成
-        self.base_third = Base(SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2) # 三塁ベースを生成
+        self.data = {
+            'pitcher_mound': PitcherMound(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT // 3), # ピッチャーマウンドを生成
+            'base_home': HomeBaseAndLine(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT - SCREEN_HEIGHT // 3, bias=self.bias), # ホームベースとベースラインを生成
+            'base_first': Base(SCREEN_WIDTH - SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2), # 一塁ベースを生成
+            'base_second': Base(SCREEN_WIDTH // 2, self.bias - BASE_HEIGHT // 2), # 二塁ベースを生成
+            'base_third': Base(SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2) # 三塁ベースを生成
+        }
+
+    def __getitem__(self, key):
+        return self.data[key]
 
     def draw(self, screen):
         screen.fill(GREEN) # 背景色の描画
-        
-        self.picher_mound.draw(screen) # ピッチャーマウンドの描画
-        self.base_first.draw(screen) # 一塁ベースの描画
-        self.base_second.draw(screen) # 二塁ベースの描画
-        self.base_third.draw(screen) # 三塁ベースの描画
-        self.base_home.draw(screen) # ホームベースの描画
+        for base in self.data.values():
+            base.draw(screen)
