@@ -23,9 +23,8 @@ class Base(): # ベースクラス
                                             (self.x, self.y - self.height//2)]) # 上
         
 class HomeBaseAndLine(Base): # ホームベースとベースラインクラス
-    def __init__(self, x, y, width=HOME_BASE_WIDTH, height=HOME_BASE_HEIGHT, bias=SCREEN_HEIGHT // 6):
+    def __init__(self, x, y, width=HOME_BASE_WIDTH, height=HOME_BASE_HEIGHT):
         super().__init__(x, y, width, height)
-        self.bias = bias
         self.dirt_radius = width * 5
         self.batter_box_width = width * 2
         self.batter_box_height = height * 3
@@ -34,8 +33,8 @@ class HomeBaseAndLine(Base): # ホームベースとベースラインクラス
         # ベースの周りの土を描画
         pygame.draw.circle(screen, dirt_color, (self.x, self.y), self.dirt_radius)
         # ベースラインを白で描画
-        pygame.draw.line(screen, color, (self.x, self.y), (0, self.bias), width=3)
-        pygame.draw.line(screen, color, (self.x, self.y), (SCREEN_WIDTH, self.bias), width=3)
+        pygame.draw.line(screen, color, (self.x, self.y), (SCREEN_WIDTH//2-500, 50+250), width=3)
+        pygame.draw.line(screen, color, (self.x, self.y), (SCREEN_WIDTH//2+500, 50+250), width=3)
 
         # バッターボックスを土色で塗りつぶす
         pygame.draw.rect(screen, dirt_color, (self.x - self.width - self.batter_box_width, 
@@ -73,15 +72,38 @@ class PitcherMound(Base): # ピッチャーマウンドクラス
         pygame.draw.circle(screen, dirt_color, (self.x, self.y), self.dirt_radius) # マウンドの土を描画
         pygame.draw.rect(screen, color, (self.x - self.width//2, self.y - self.height//2, self.width, self.height)) # ピッチャープレートを白で描画
 
+class Wall():
+    def __init__(self, left_x, left_y, right_x, right_y, width=5):
+        self.width = width
+        self.left_x = left_x
+        self.left_y = left_y
+        self.right_x = right_x
+        self.right_y = right_y
+
+    def draw(self, screen):
+        pygame.draw.line(screen, BLUE, (self.left_x, self.left_y), # 左
+                                        (self.right_x, self.right_y), # 右
+                                        width=self.width) # 壁の太さ
+
 class Field(): # フィールドクラス
     def __init__(self):
-        self.bias = SCREEN_HEIGHT // 6
+        bias = 100
         self.data = {
-            'pitcher_mound': PitcherMound(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT // 3), # ピッチャーマウンドを生成
-            'base_home': HomeBaseAndLine(SCREEN_WIDTH // 2, self.bias + SCREEN_HEIGHT - SCREEN_HEIGHT // 3, bias=self.bias), # ホームベースとベースラインを生成
-            'base_first': Base(SCREEN_WIDTH - SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2), # 一塁ベースを生成
-            'base_second': Base(SCREEN_WIDTH // 2, self.bias - BASE_HEIGHT // 2), # 二塁ベースを生成
-            'base_third': Base(SCREEN_WIDTH // 4, self.bias +  SCREEN_HEIGHT // 3 - BASE_HEIGHT // 2) # 三塁ベースを生成
+            'left_wall': Wall(SCREEN_WIDTH//2-550, 350, SCREEN_WIDTH//2-CENTER_WIDTH, CENTER_Y), # レフトの壁を生成
+            'center_wall': Wall(SCREEN_WIDTH//2-CENTER_WIDTH, CENTER_Y, SCREEN_WIDTH//2+CENTER_WIDTH, CENTER_Y), # センターの壁を生成
+            'right_wall': Wall(SCREEN_WIDTH//2+CENTER_WIDTH, CENTER_Y, SCREEN_WIDTH//2+550, 350), # ライトの壁を生成
+            'left_top_wall': Wall(SCREEN_WIDTH//2-550, 350, SCREEN_WIDTH//2-400 ,500), # 左上の壁を生成
+            'left_center_wall': Wall(SCREEN_WIDTH//2-400, 500, SCREEN_WIDTH//2-400, 700), # 左中の壁を生成
+            'left_bottom_wall': Wall(SCREEN_WIDTH//2-400, 700, SCREEN_WIDTH//2-200, 900), # 左下の壁を生成
+            'right_top_wall': Wall(SCREEN_WIDTH//2+400 ,500, SCREEN_WIDTH//2+550, 350), # 右上の壁を生成
+            'right_center_wall': Wall(SCREEN_WIDTH//2+400, 700, SCREEN_WIDTH//2+400, 500), # 右中の壁を生成
+            'right_bottom_wall': Wall(SCREEN_WIDTH//2+200, 900, SCREEN_WIDTH//2+400, 700), # 右下の壁を生成
+            'bottom_wall': Wall(SCREEN_WIDTH//2-200, 900, SCREEN_WIDTH//2+200, 900), # 下の壁を生成
+            'pitcher_mound': PitcherMound(SCREEN_WIDTH // 2, SCREEN_HEIGHT - bias - 200), # ピッチャーマウンドを生成
+            'base_home': HomeBaseAndLine(SCREEN_WIDTH // 2, SCREEN_HEIGHT - bias), # ホームベースとベースラインを生成
+            'base_first': Base(SCREEN_WIDTH // 2 + 200, SCREEN_HEIGHT - bias - 200), # 一塁ベースを生成
+            'base_second': Base(SCREEN_WIDTH // 2, SCREEN_HEIGHT - bias - 400), # 二塁ベースを生成
+            'base_third': Base(SCREEN_WIDTH // 2 - 200, SCREEN_HEIGHT - bias - 200) # 三塁ベースを生成
         }
 
     def __getitem__(self, key):
