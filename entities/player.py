@@ -21,12 +21,12 @@ class Player():
     def draw(self, screen, color=RED):
         pygame.draw.circle(screen, color, (self.x, self.y), self.radius)
 
-class RightBatter(Player): # 右打者
+class Batter(Player): # 打者
     def __init__(self, x, y, radius=PLAYER_RADIUS):
         super().__init__(x, y, radius)
         self.bat_width = 6
         self.bat_length = 28
-        self.init_angle = 115
+        self.init_angle = 120
         self.angle = self.init_angle
         self.swing_speed = 15
         self.swing_back_speed = 6
@@ -35,17 +35,17 @@ class RightBatter(Player): # 右打者
         self.is_change = False
 
     def swing(self):
-        if self.angle > -135:
+        if self.angle > -135 and self.angle < 135:
             self.swing_count += 1
-            self.angle -= self.swing_speed
+            self.angle -= self.swing_speed if isinstance(self, RightBatter) else -self.swing_speed
         else:
             self.swing_count = 0
     
     def swing_back(self):
         self.swing_count = 0
         # バットを振り切っていたらバットを元の位置に戻す
-        if self.angle <= -135:
-            self.angle = self.init_angle
+        if self.angle <= -135 or self.angle >= 135:
+            self.angle = self.init_angle if isinstance(self, RightBatter) else -self.init_angle
 
     def move(self, dx=0, dy=0):
         if self.init_x -5 < self.x + dx < self.init_x + 5:
@@ -72,25 +72,15 @@ class RightBatter(Player): # 右打者
             ball.dy = -speed * math.cos(math.radians(self.angle))
             self.hit = True
 
-class LeftBatter(RightBatter): # 左打者
+class RightBatter(Batter): # 右打者
+    def __init__(self, x, y, radius=PLAYER_RADIUS):
+        super().__init__(x, y, radius)
+
+class LeftBatter(Batter): # 左打者
     def __init__(self, x, y, radius=PLAYER_RADIUS):
         super().__init__(x, y, radius)
         self.bat_length *= -1
-        self.init_angle *= -1
-        self.angle = self.init_angle
-
-    def swing(self):
-        if self.angle < 135:
-            self.swing_count += 1
-            self.angle += self.swing_speed
-        else:
-            self.swing_count = 0
-    
-    def swing_back(self):
-        self.swing_count = 0
-        # バットを振り切っていたらバットを元の位置に戻す
-        if self.angle >= 135:
-            self.angle = self.init_angle
+        self.angle = -self.init_angle
 
 def create_batter(home_x, home_y):
     if random.random() < 0.5: # 50%の確率で右打者を生成
