@@ -1,7 +1,7 @@
 import random
 import math
 import pygame
-from define import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_COLOR, BALL_RADIUS, FIELDER_HOLD_TIME
+from define import *
 
 class Ball():
     def __init__(self, field, init_x, init_y, radius=BALL_RADIUS):
@@ -85,15 +85,33 @@ class Ball():
                             self.hold_time -= 1
                             self.dx, self.dy = 0, 0
                     return
-            # フェアゾーンの画面外ならヒット
-            if self.y < 0 or (self.x < 0 and self.y < SCREEN_HEIGHT // 6) or (self.x > SCREEN_WIDTH and self.y < SCREEN_HEIGHT // 6):
-                reset()
-                sbo_counter.reset()
-                batter.is_change = True
-            # ファウルゾーンの画面外ならファウル
-            elif SCREEN_HEIGHT < self.y or self.x < 0 or SCREEN_WIDTH < self.x:
-                reset()
-                sbo_counter.foul()
+            # センターの壁に当たったら反射
+            if self.y - self.radius < CENTER_Y:
+                self.y = CENTER_Y + self.radius
+                self.dy = -self.dy * WALL_REBOUND
+            elif self.y + self.radius > SCREEN_HEIGHT:
+                self.y = SCREEN_HEIGHT - self.radius
+                self.dy = -self.dy * WALL_REBOUND
+            # ライトの壁に当たったら反射（実装予定）
+            elif self.y <= self.x - 800:
+                self.dx = 0
+                self.dy = 0
+            # レフトの壁に当たったら反射（実装予定）
+            elif self.y + self.x <= 400:
+                self.dx = 0
+                self.dy = 0
+            # 右下の壁に当たったら（実装予定）
+            elif self.y + self.x >= 1700:
+                self.dx = 0
+                self.dy = 0
+            # 左下の壁に当たったら（実装予定）
+            elif self.y >= self.x + 500:
+                self.dx = 0
+                self.dy = 0
+            # ファウルゾーンに入ったらファウル（実装予定）
+            #elif batter.is_hit:
+                # reset()
+                # sbo_counter.foul()
                 
         else:
             self.dead_count -= 1

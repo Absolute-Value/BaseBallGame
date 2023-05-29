@@ -93,10 +93,10 @@ class Field(): # フィールドクラス
             'center_wall': Wall(SCREEN_WIDTH//2-CENTER_WIDTH, CENTER_Y, SCREEN_WIDTH//2+CENTER_WIDTH, CENTER_Y), # センターの壁を生成
             'right_wall': Wall(SCREEN_WIDTH//2+CENTER_WIDTH, CENTER_Y, SCREEN_WIDTH//2+550, 350), # ライトの壁を生成
             'left_top_wall': Wall(SCREEN_WIDTH//2-550, 350, SCREEN_WIDTH//2-400 ,500), # 左上の壁を生成
-            'left_center_wall': Wall(SCREEN_WIDTH//2-400, 500, SCREEN_WIDTH//2-400, 700), # 左中の壁を生成
+            'left_middle_wall': Wall(SCREEN_WIDTH//2-400, 500, SCREEN_WIDTH//2-400, 700), # 左中の壁を生成
             'left_bottom_wall': Wall(SCREEN_WIDTH//2-400, 700, SCREEN_WIDTH//2-200, 900), # 左下の壁を生成
             'right_top_wall': Wall(SCREEN_WIDTH//2+400 ,500, SCREEN_WIDTH//2+550, 350), # 右上の壁を生成
-            'right_center_wall': Wall(SCREEN_WIDTH//2+400, 700, SCREEN_WIDTH//2+400, 500), # 右中の壁を生成
+            'right_middle_wall': Wall(SCREEN_WIDTH//2+400, 700, SCREEN_WIDTH//2+400, 500), # 右中の壁を生成
             'right_bottom_wall': Wall(SCREEN_WIDTH//2+200, 900, SCREEN_WIDTH//2+400, 700), # 右下の壁を生成
             'bottom_wall': Wall(SCREEN_WIDTH//2-200, 900, SCREEN_WIDTH//2+200, 900), # 下の壁を生成
             'pitcher_mound': PitcherMound(SCREEN_WIDTH // 2, SCREEN_HEIGHT - bias - 200), # ピッチャーマウンドを生成
