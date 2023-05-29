@@ -1,4 +1,5 @@
 import random
+import math
 import pygame
 from define import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_COLOR, BALL_RADIUS
 
@@ -13,8 +14,10 @@ class Ball():
     def reset(self):
         self.x = self.init_x
         self.y = self.init_y
-        self.dx = random.random() * 0.5 - 0.25
-        self.dy = random.random() * 3.5 + 2.5
+        self.speed = random.random() * 3 + 3.5
+        self.angle = random.random() * 10 - 5
+        self.dx = self.speed * math.sin(math.radians(self.angle))
+        self.dy = self.speed * math.cos(math.radians(self.angle))
         self.alive = True
         self.dead_count = random.randint(60, 120)
         self.is_strike = False
