@@ -1,6 +1,6 @@
 import pygame
 import math
-from define import RED, PLAYER_RADIUS, FIELDER_HOLD_TIME
+from define import RED, PLAYER_RADIUS
 
 class Player():
     def __init__(self, init_x, init_y, radius=PLAYER_RADIUS):
@@ -23,12 +23,17 @@ class Player():
         pygame.draw.circle(screen, color, (self.x, self.y), self.radius)
 
 class Fielder(Player):
-    def __init__(self, field, init_x, init_y, radius=PLAYER_RADIUS):
+    def __init__(self, field, init_x, init_y, radius=PLAYER_RADIUS, hold_time=8):
         self.field = field
+        self.init_hold_time = hold_time
         super().__init__(init_x, init_y, radius)
 
+    def reset(self):
+        self.hold_time = self.init_hold_time
+        super().reset()
+
     def move(self, ball, batter):
-        if batter.is_hit and ball.hold_time == FIELDER_HOLD_TIME: # バッターがヒットしていて、野手が拾えていない場合
+        if batter.is_hit and ball.is_free: # バッターがヒットしていて、野手が拾えていない場合
             if self.speed < 2:
                 self.speed += 0.05
             # ボールに向かって移動
@@ -47,7 +52,7 @@ class Catcher(Fielder): # キャッチャー
 class First(Fielder): # 一塁手
     def move(self, ball, batter):
         if batter.is_hit: # バッターがヒットしたら
-            if self.speed < 2:
+            if self.speed < 1.75:
                 self.speed += 0.05
             # 一塁ベースに向かって移動
             dx = self.field['base_first'].x-5 - self.x
@@ -67,9 +72,9 @@ class Fielders():
             'second': Fielder(field, field['base_second'].x + 120, field['base_second'].y + 10), # 二塁手を生成
             'short': Fielder(field, field['base_second'].x - 120, field['base_second'].y + 10), # 遊撃手を生成
             'third': Fielder(field, field['base_third'].x, field['base_third'].y - 50), # 三塁手を生成
-            'right': Fielder(field, field['right_wall'].left_x+50, field['right_wall'].left_y+200), # 右翼手を生成
-            'center': Fielder(field, field['base_second'].x, field['center_wall'].left_y+100), # 中堅手を生成
-            'left': Fielder(field, field['left_wall'].right_x-50, field['left_wall'].right_y+200) # 左翼手を生成
+            'right': Fielder(field, field['right_wall'].left_x+50, field['right_wall'].left_y+200, hold_time=15), # 右翼手を生成
+            'center': Fielder(field, field['base_second'].x, field['center_wall'].left_y+100, hold_time=15), # 中堅手を生成
+            'left': Fielder(field, field['left_wall'].right_x-50, field['left_wall'].right_y+200, hold_time=15) # 左翼手を生成
         }
 
     def __getitem__(self, key):

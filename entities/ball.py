@@ -23,7 +23,7 @@ class Ball():
         self.dead_count = random.randint(60, 120)
         self.is_strike = False
         self.is_swing = False
-        self.hold_time = FIELDER_HOLD_TIME
+        self.is_free = True
 
     def move(self, base_home, sbo_counter, fielders, batter):
         self.x += self.dx
@@ -72,7 +72,7 @@ class Ball():
                         reset()
                         sbo_counter.reset()
                     else:
-                        if self.hold_time == 0:
+                        if fielder.hold_time == 0:
                             # ファーストに送球
                             speed = 4
                             dx = self.field['base_first'].x-5 - self.x
@@ -82,7 +82,8 @@ class Ball():
                                 self.dx = (dx / distance) * speed
                                 self.dy = (dy / distance) * speed
                         else:
-                            self.hold_time -= 1
+                            self.is_free = False
+                            fielder.hold_time -= 1
                             self.dx, self.dy = 0, 0
                     return
             # センターの壁に当たったら反射
@@ -108,11 +109,10 @@ class Ball():
             elif self.y >= self.x + 500:
                 self.dx = 0
                 self.dy = 0
-            # ファウルゾーンに入ったらファウル（実装予定）
-            #elif batter.is_hit:
-                # reset()
-                # sbo_counter.foul()
-                
+            # ファウルゾーンに入ったら
+            elif ((self.y + self.x > 1400 and self.y > self.x - 200) or (self.x + self.y > 1000 and self.y > self.x + 200)) and (self.field['base_home'].x-self.x)**2 + (self.field['base_home'].y-self.y)**2 > (self.field['base_home'].dirt_radius)**2:
+                reset()
+                sbo_counter.foul()   
         else:
             self.dead_count -= 1
             if self.dead_count == 0:

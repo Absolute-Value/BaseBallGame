@@ -35,7 +35,7 @@ class Batter(Player): # 打者
 
     def move(self, field):
         if self.is_hit: # バットがヒットしたら
-            if self.speed < 2:
+            if self.speed < 1.75:
                 self.speed += 0.05
             # 一塁ベースに向かって移動
             dx = field['base_first'].x - self.x

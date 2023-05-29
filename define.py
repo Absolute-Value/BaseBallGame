@@ -31,10 +31,7 @@ BALL_RADIUS = 4
 PLAYER_RADIUS = 6
 
 # 壁の反発係数
-WALL_REBOUND = 0.5
-
-# 野手のボール保持時間
-FIELDER_HOLD_TIME = 8
+WALL_REBOUND = 0.3
 
 # フォント
 FONT_PATH = 'Nosutaru-dotMPlusH-10-Regular.ttf'
