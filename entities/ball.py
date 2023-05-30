@@ -26,9 +26,9 @@ class Ball():
         self.is_free = True
 
     def move(self, base_home, sbo_counter, fielders, batter):
-        self.x += self.dx
-        self.y += self.dy
         if self.alive:
+            self.x += self.dx
+            self.y += self.dy
             # スイングしたかの判定
             if (base_home.x - self.x)**2 + (base_home.y - self.y)**2 < (base_home.dirt_radius + self.radius)**2:
                 if -45 < batter.angle < 45:

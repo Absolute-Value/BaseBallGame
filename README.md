@@ -5,6 +5,7 @@
 pythonを用いて野球ゲームを実装しました．  
 Github Copilotにかなり助けてもらいました．
 Copilotくんは優秀ですね．
+[jsに移行](https://github.com/Absolute-Value/BaseBallJS)してWeb上で遊べるようにしました！
 
 [![Python][Python.js]][Python.link]
 
