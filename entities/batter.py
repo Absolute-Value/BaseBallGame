@@ -10,7 +10,6 @@ class Batter(Player): # 打者
         self.bat_length = 28
         self.init_angle = 120
         self.swing_speed = 15
-        self.swing_back_speed = 6
         self.swing_count = 0
         self.is_change = False
         super().__init__(init_x, init_y, radius)
